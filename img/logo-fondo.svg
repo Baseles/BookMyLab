@@ -1,0 +1,9 @@
+<!-- Silueta del logo para usar como máscara de fondo (solo importa la opacidad, no el color) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <g fill="none" stroke="#000" stroke-width="0.7">
+    <rect x="7.5" y="7.5" width="7.5" height="7.5" rx="2"/>
+    <rect x="17" y="7.5" width="7.5" height="7.5" rx="2"/>
+    <rect x="7.5" y="17" width="7.5" height="7.5" rx="2"/>
+  </g>
+  <rect x="16.3" y="16.3" width="8.9" height="8.9" rx="2.4"/>
+</svg>

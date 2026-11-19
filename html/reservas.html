@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reservas · BookMyLab</title>
+  <meta name="description" content="BookMyLab: reserva laboratorios, salas y equipo del campus.">
+  <script>try { const t = localStorage.getItem('bookmylab.tema'); if (t) document.documentElement.dataset.theme = t; } catch {}
+  try { if (!sessionStorage.getItem('bookmylab.intro')) { document.documentElement.dataset.intro = ''; sessionStorage.setItem('bookmylab.intro', '1'); } } catch {}</script>
+  <meta name="theme-color" content="#161b33">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body data-protegida>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="barra">
+    <div class="barra__interior">
+      <a class="marca" href="/">
+        <svg class="logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+          <rect class="logo__fondo" width="32" height="32" rx="9"/>
+          <rect class="logo__celda" x="7.5" y="7.5" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="17" y="7.5" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="7.5" y="17" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="17" y="17" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__slot" x="16.3" y="16.3" width="8.9" height="8.9" rx="2.4"/>
+          <path class="logo__check" d="M18.6 20.9l1.7 1.7 3-3.3"/>
+        </svg>
+        <span>BookMyLab</span>
+      </a>
+      <nav aria-label="Principal">
+        <ul class="nav">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/reservas" aria-current="page">Reservas</a></li>
+          <li><a href="/salas">Salas</a></li>
+          <li data-roles="admin"><a href="/equipos">Equipos</a></li>
+          <li data-roles="admin"><a href="/usuarios">Usuarios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="contenido" class="contenedor">
+    <div class="encabezado">
+      <p class="eyebrow">Agenda</p>
+      <h1>Reservas</h1>
+      <p class="lead" data-roles="admin">Aprueba o rechaza solicitudes y registra reservas a nombre de alumnos o docentes.</p>
+      <p class="lead" data-roles="alumno,docente">Aparta una sala en un horario libre. Tu solicitud queda pendiente hasta que el encargado del laboratorio la aprueba. Mientras siga pendiente puedes editarla.</p>
+    </div>
+
+    <div class="crud">
+      <section class="panel panel--form" aria-labelledby="titulo-form">
+        <form id="form" novalidate>
+          <div class="form-titulo"><h2 id="titulo-form" data-titulo>Nueva reserva</h2></div>
+          <div class="campos">
+            <div class="campo" data-roles="admin">
+              <label for="usuario">Solicitante</label>
+              <select id="usuario" name="usuario" required data-msg="Selecciona quién reserva"></select>
+              <p class="ayuda">Busca por No. de control o nombre. Solo aparecen usuarios activos.</p>
+              <p class="error" data-error-for="usuario"></p>
+            </div>
+            <div class="campo">
+              <label for="sala">Sala</label>
+              <select id="sala" name="sala" required></select>
+              <p class="error" data-error-for="sala"></p>
+            </div>
+            <div class="campo">
+              <label for="fecha">Fecha</label>
+              <input id="fecha" name="fecha" type="date" required>
+              <p class="error" data-error-for="fecha"></p>
+            </div>
+            <div class="campo campo--mitad">
+              <label for="horaInicio">Inicio</label>
+              <input id="horaInicio" name="horaInicio" type="time" required step="900">
+              <p class="error" data-error-for="horaInicio"></p>
+            </div>
+            <div class="campo campo--mitad">
+              <label for="horaFin">Fin</label>
+              <input id="horaFin" name="horaFin" type="time" required step="900">
+              <p class="error" data-error-for="horaFin"></p>
+            </div>
+
+            <div class="disponibilidad" id="disponibilidad" hidden aria-live="polite"></div>
+
+            <div class="campo">
+              <label for="asistentes">Asistentes</label>
+              <input id="asistentes" name="asistentes" type="number" min="1" max="500" step="1" required inputmode="numeric">
+              <p class="ayuda" id="ayuda-capacidad"></p>
+              <p class="error" data-error-for="asistentes"></p>
+            </div>
+            <div class="campo">
+              <label for="motivo">Motivo</label>
+              <textarea id="motivo" name="motivo" required minlength="5" maxlength="200" placeholder="Ej. Práctica 4 de Circuitos Eléctricos" data-msg="Describe el motivo (mínimo 5 caracteres)"></textarea>
+              <p class="error" data-error-for="motivo"></p>
+            </div>
+            <fieldset class="campo campo--fieldset">
+              <legend class="etiqueta">Equipo <span class="opcional">(opcional)</span></legend>
+              <div class="lista-equipos" id="lista-equipos"><span class="sr-only">Cargando equipo…</span><span class="esqueleto esqueleto--check esqueleto--largo"></span><span class="esqueleto esqueleto--check esqueleto--medio"></span><span class="esqueleto esqueleto--check esqueleto--largo"></span></div>
+              <p class="error" data-error-for="equipos"></p>
+            </fieldset>
+            <div class="campo" id="campo-estado" hidden data-roles="admin">
+              <label for="estado">Estado</label>
+              <select id="estado" name="estado" disabled></select>
+              <p class="ayuda">Si cambias la sala o el horario de una reserva aprobada, vuelve a quedar pendiente.</p>
+              <p class="error" data-error-for="estado"></p>
+            </div>
+          </div>
+          <div class="form__acciones">
+            <button class="btn btn--primario" type="submit">Guardar reserva</button>
+            <button class="btn btn--fantasma" type="button" data-cancelar hidden>Cancelar edición</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="t-lista">
+        <div class="panel__cab"><h2 id="t-lista">Agenda de reservas</h2><span class="contador" data-contador></span></div>
+        <form id="filtros" class="filtros" role="search" aria-label="Filtrar reservas">
+          <div class="campo" data-roles="admin"><label for="f-noControl">No. de control</label><input id="f-noControl" name="noControl" inputmode="numeric" placeholder="2340…"></div>
+          <div class="campo"><label for="f-fecha">Fecha</label><input id="f-fecha" name="fecha" type="date"></div>
+          <div class="campo"><label for="f-sala">Sala</label><select id="f-sala" name="sala"></select></div>
+          <div class="campo"><label for="f-estado">Estado</label><select id="f-estado" name="estado"></select></div>
+          <div class="campo"><label for="f-periodo">Periodo</label>
+            <select id="f-periodo" name="periodo"><option value="proximas">Próximas</option><option value="pasadas">Pasadas</option><option value="">Todas</option></select>
+          </div>
+        </form>
+        <div class="tabla-envoltura">
+          <table class="tabla">
+            <thead><tr><th>Cuándo</th><th>Sala</th><th data-roles="admin">Solicitante</th><th>Detalle</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+            <tbody id="tabla"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script src="/js/sesion.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/crud.js"></script>
+  <script src="/js/reservas.js"></script>
+</body>
+</html>

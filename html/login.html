@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iniciar sesión · BookMyLab</title>
+  <meta name="description" content="Acceso institucional a BookMyLab para alumnos, docentes y administradores.">
+  <script>try { const t = localStorage.getItem('bookmylab.tema'); if (t) document.documentElement.dataset.theme = t; } catch {}
+  try { if (!sessionStorage.getItem('bookmylab.intro')) { document.documentElement.dataset.intro = ''; sessionStorage.setItem('bookmylab.intro', '1'); } } catch {}</script>
+  <meta name="theme-color" content="#161b33">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+  <div class="login">
+    <aside class="login__lado" aria-hidden="true">
+      <div class="login__rejilla">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <span class="marca">
+        <svg class="logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+          <rect class="logo__fondo" width="32" height="32" rx="9"/>
+          <rect class="logo__celda" x="7.5" y="7.5" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="17" y="7.5" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="7.5" y="17" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="17" y="17" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__slot" x="16.3" y="16.3" width="8.9" height="8.9" rx="2.4"/>
+          <path class="logo__check" d="M18.6 20.9l1.7 1.7 3-3.3"/>
+        </svg>
+        <span>BookMyLab</span>
+      </span>
+      <div>
+        <h1>Tu sala o laboratorio, <em>apartado</em> antes de llegar.</h1>
+        <p>Consulta horarios libres, pide el equipo que necesitas y revisa el estado de tus solicitudes desde un solo lugar.</p>
+      </div>
+      <p class="login__nota">Sistema de reservas de laboratorios y salas</p>
+    </aside>
+
+    <main class="login__principal" id="contenido">
+      <div class="login__tema" id="zona-tema"></div>
+      <div class="login__caja">
+        <span class="marca">
+          <svg class="logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+            <rect class="logo__fondo" width="32" height="32" rx="9"/>
+            <rect class="logo__celda" x="7.5" y="7.5" width="7.5" height="7.5" rx="2"/>
+            <rect class="logo__celda" x="17" y="7.5" width="7.5" height="7.5" rx="2"/>
+            <rect class="logo__celda" x="7.5" y="17" width="7.5" height="7.5" rx="2"/>
+            <rect class="logo__celda" x="17" y="17" width="7.5" height="7.5" rx="2"/>
+            <rect class="logo__slot" x="16.3" y="16.3" width="8.9" height="8.9" rx="2.4"/>
+            <path class="logo__check" d="M18.6 20.9l1.7 1.7 3-3.3"/>
+          </svg>
+          <span>BookMyLab</span>
+        </span>
+        <div>
+          <h2>Iniciar sesión</h2>
+          <p class="muted login__sub">Entra con tu correo institucional.</p>
+        </div>
+
+        <p class="alerta alerta--info" id="aviso" role="status" hidden></p>
+        <p class="alerta alerta--error" id="error-general" role="alert" hidden></p>
+
+        <form id="form-login" novalidate>
+          <div class="campos">
+            <div class="campo">
+              <label for="email">Correo institucional</label>
+              <input id="email" name="email" type="email" required autocomplete="username" inputmode="email"
+                autocapitalize="none" spellcheck="false" maxlength="80" placeholder="l23400686@campus.edu.mx">
+              <p class="error" data-error-for="email"></p>
+            </div>
+            <div class="campo">
+              <label for="password">Contraseña</label>
+              <div class="campo-clave">
+                <input id="password" name="password" type="password" required autocomplete="current-password" maxlength="64">
+                <button type="button" class="btn btn--fantasma" id="ver-clave" aria-controls="password" aria-pressed="false">Mostrar</button>
+              </div>
+              <p class="aviso-mayus" id="aviso-mayus" hidden>Bloq Mayús está activado</p>
+              <p class="error" data-error-for="password"></p>
+            </div>
+            <div class="campo">
+              <label class="check"><input type="checkbox" name="recordar"> Mantener sesión en este equipo</label>
+            </div>
+          </div>
+          <div class="form__acciones">
+            <button class="btn btn--primario btn--bloque" type="submit">Entrar</button>
+          </div>
+        </form>
+
+        <p class="login__pie">¿Olvidaste tu contraseña o no puedes entrar? Acude al Centro de Cómputo con tu credencial para restablecerla. Las cuentas las da de alta la institución.</p>
+      </div>
+    </main>
+  </div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script src="/js/sesion.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>

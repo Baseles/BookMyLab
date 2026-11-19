@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usuarios · BookMyLab</title>
+  <meta name="description" content="BookMyLab: reserva laboratorios, salas y equipo del campus.">
+  <script>try { const t = localStorage.getItem('bookmylab.tema'); if (t) document.documentElement.dataset.theme = t; } catch {}
+  try { if (!sessionStorage.getItem('bookmylab.intro')) { document.documentElement.dataset.intro = ''; sessionStorage.setItem('bookmylab.intro', '1'); } } catch {}</script>
+  <meta name="theme-color" content="#161b33">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body data-protegida>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="barra">
+    <div class="barra__interior">
+      <a class="marca" href="/">
+        <svg class="logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+          <rect class="logo__fondo" width="32" height="32" rx="9"/>
+          <rect class="logo__celda" x="7.5" y="7.5" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="17" y="7.5" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="7.5" y="17" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="17" y="17" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__slot" x="16.3" y="16.3" width="8.9" height="8.9" rx="2.4"/>
+          <path class="logo__check" d="M18.6 20.9l1.7 1.7 3-3.3"/>
+        </svg>
+        <span>BookMyLab</span>
+      </a>
+      <nav aria-label="Principal">
+        <ul class="nav">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/reservas">Reservas</a></li>
+          <li><a href="/salas">Salas</a></li>
+          <li data-roles="admin"><a href="/equipos">Equipos</a></li>
+          <li data-roles="admin"><a href="/usuarios" aria-current="page">Usuarios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="contenido" class="contenedor">
+    <div class="encabezado">
+      <p class="eyebrow">Comunidad</p>
+      <h1>Alumnos y docentes</h1>
+      <p class="lead">Cuentas institucionales con acceso al sistema. Los alumnos se identifican con su No. de control de 8 dígitos; docentes y administradores, con su No. de empleado.</p>
+    </div>
+
+    <div class="crud">
+      <section class="panel panel--form" aria-labelledby="titulo-form">
+        <form id="form" novalidate>
+          <div class="form-titulo"><h2 id="titulo-form" data-titulo>Nuevo usuario</h2></div>
+          <div class="campos">
+            <div class="campo">
+              <span class="etiqueta" id="et-rol">Rol</span>
+              <div class="grupo-radios" role="radiogroup" aria-labelledby="et-rol">
+                <label class="check"><input type="radio" name="rol" value="alumno" checked> Alumno</label>
+                <label class="check"><input type="radio" name="rol" value="docente"> Docente</label>
+                <label class="check"><input type="radio" name="rol" value="admin"> Admin</label>
+              </div>
+              <p class="error" data-error-for="rol"></p>
+            </div>
+            <div class="campo">
+              <label for="noControl" id="et-noControl">No. de control</label>
+              <input id="noControl" name="noControl" required inputmode="numeric" maxlength="13" placeholder="23400686" autocomplete="off">
+              <p class="ayuda" id="ayuda-noControl">8 dígitos. Si tienes letra al inicio (ej. C19400123), inclúyela.</p>
+              <p class="error" data-error-for="noControl"></p>
+            </div>
+            <div class="campo">
+              <label for="nombreCompleto">Nombre completo</label>
+              <input id="nombreCompleto" name="nombreCompleto" required minlength="5" maxlength="80" placeholder="Nombre(s) y apellidos" autocomplete="name"
+                pattern="[A-Za-zÁÉÍÓÚÜÑáéíóúüñ'.\- ]+\s+[A-Za-zÁÉÍÓÚÜÑáéíóúüñ'.\- ]+" data-msg="Escribe nombre y al menos un apellido, solo letras">
+              <p class="error" data-error-for="nombreCompleto"></p>
+            </div>
+            <div class="campo" id="campo-carrera">
+              <label for="carrera">Carrera</label>
+              <select id="carrera" name="carrera" required data-msg="Selecciona la carrera"></select>
+              <p class="error" data-error-for="carrera"></p>
+            </div>
+            <div class="campo campo--mitad" id="campo-semestre">
+              <label for="semestre">Semestre <span class="opcional">(opcional)</span></label>
+              <input id="semestre" name="semestre" type="number" min="1" max="14" step="1" inputmode="numeric">
+              <p class="error" data-error-for="semestre"></p>
+            </div>
+            <div class="campo">
+              <label for="email">Correo institucional</label>
+              <input id="email" name="email" type="email" required maxlength="80" autocomplete="off" autocapitalize="none" spellcheck="false">
+              <p class="ayuda">Es el usuario con el que entra al sistema.</p>
+              <p class="error" data-error-for="email"></p>
+            </div>
+            <div class="campo">
+              <label for="password" id="et-password">Contraseña inicial</label>
+              <input id="password" name="password" type="password" required minlength="8" maxlength="72" autocomplete="new-password" data-msg="Mínimo 8 caracteres">
+              <p class="ayuda" id="ayuda-password">Mínimo 8 caracteres. Compártela con la persona para que entre.</p>
+              <p class="error" data-error-for="password"></p>
+            </div>
+            <div class="campo">
+              <label class="check"><input type="checkbox" name="activo" checked> Activo (puede hacer reservas)</label>
+            </div>
+          </div>
+          <div class="form__acciones">
+            <button class="btn btn--primario" type="submit">Guardar usuario</button>
+            <button class="btn btn--fantasma" type="button" data-cancelar hidden>Cancelar edición</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="t-lista">
+        <div class="panel__cab"><h2 id="t-lista">Usuarios registrados</h2><span class="contador" data-contador></span></div>
+        <form id="filtros" class="filtros" role="search" aria-label="Filtrar usuarios">
+          <div class="campo campo--ancho"><label for="f-buscar">Buscar</label><input id="f-buscar" name="buscar" type="search" placeholder="No. de control o nombre"></div>
+          <div class="campo"><label for="f-rol">Rol</label><select id="f-rol" name="rol"><option value="">Todos</option><option value="alumno">Alumnos</option><option value="docente">Docentes</option><option value="admin">Administradores</option></select></div>
+          <div class="campo campo--ancho"><label for="f-carrera">Carrera</label><select id="f-carrera" name="carrera"></select></div>
+          <div class="campo"><label for="f-activo">Estado</label><select id="f-activo" name="activo"><option value="">Todos</option><option value="true">Activos</option><option value="false">Inactivos</option></select></div>
+          <div class="campo"><label for="f-orden">Ordenar por</label><select id="f-orden" name="orden"><option value="nombre">Nombre</option><option value="noControl">No. de control</option><option value="recientes">Más recientes</option></select></div>
+        </form>
+        <div class="tabla-envoltura">
+          <table class="tabla">
+            <thead><tr><th>No. control</th><th>Nombre</th><th>Carrera</th><th>Rol</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+            <tbody id="tabla"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script src="/js/sesion.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/crud.js"></script>
+  <script src="/js/usuarios.js"></script>
+</body>
+</html>

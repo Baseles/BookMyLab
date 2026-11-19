@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Equipos · BookMyLab</title>
+  <meta name="description" content="BookMyLab: reserva laboratorios, salas y equipo del campus.">
+  <script>try { const t = localStorage.getItem('bookmylab.tema'); if (t) document.documentElement.dataset.theme = t; } catch {}
+  try { if (!sessionStorage.getItem('bookmylab.intro')) { document.documentElement.dataset.intro = ''; sessionStorage.setItem('bookmylab.intro', '1'); } } catch {}</script>
+  <meta name="theme-color" content="#161b33">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body data-protegida>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="barra">
+    <div class="barra__interior">
+      <a class="marca" href="/">
+        <svg class="logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+          <rect class="logo__fondo" width="32" height="32" rx="9"/>
+          <rect class="logo__celda" x="7.5" y="7.5" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="17" y="7.5" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="7.5" y="17" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__celda" x="17" y="17" width="7.5" height="7.5" rx="2"/>
+          <rect class="logo__slot" x="16.3" y="16.3" width="8.9" height="8.9" rx="2.4"/>
+          <path class="logo__check" d="M18.6 20.9l1.7 1.7 3-3.3"/>
+        </svg>
+        <span>BookMyLab</span>
+      </a>
+      <nav aria-label="Principal">
+        <ul class="nav">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/reservas">Reservas</a></li>
+          <li><a href="/salas">Salas</a></li>
+          <li data-roles="admin"><a href="/equipos" aria-current="page">Equipos</a></li>
+          <li data-roles="admin"><a href="/usuarios">Usuarios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="contenido" class="contenedor">
+    <div class="encabezado">
+      <p class="eyebrow">Inventario</p>
+      <h1>Equipo prestable</h1>
+      <p class="lead">Solo el equipo en buen estado se puede apartar. Si marcas uno como dañado, se retira de las reservas próximas.</p>
+    </div>
+
+    <div class="crud">
+      <section class="panel panel--form" aria-labelledby="titulo-form">
+        <form id="form" novalidate>
+          <div class="form-titulo"><h2 id="titulo-form" data-titulo>Nuevo equipo</h2></div>
+          <div class="campos">
+            <div class="campo">
+              <label for="noInventario">No. de inventario</label>
+              <input id="noInventario" name="noInventario" required pattern="[A-Za-z0-9\-]{3,20}" maxlength="20" placeholder="PRY-0012" autocapitalize="characters" data-msg="De 3 a 20 letras, números o guiones">
+              <p class="error" data-error-for="noInventario"></p>
+            </div>
+            <div class="campo">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" name="nombre" required minlength="2" maxlength="60" placeholder="Proyector Epson PowerLite">
+              <p class="error" data-error-for="nombre"></p>
+            </div>
+            <div class="campo campo--mitad">
+              <label for="tipo">Tipo</label>
+              <select id="tipo" name="tipo" required></select>
+              <p class="error" data-error-for="tipo"></p>
+            </div>
+            <div class="campo campo--mitad">
+              <label for="estado">Estado</label>
+              <select id="estado" name="estado" required></select>
+              <p class="error" data-error-for="estado"></p>
+            </div>
+            <div class="campo">
+              <label for="sala">Se guarda en</label>
+              <select id="sala" name="sala" required data-msg="Selecciona una sala"></select>
+              <p class="error" data-error-for="sala"></p>
+            </div>
+            <div class="campo">
+              <label for="notas">Notas <span class="opcional">(opcional)</span></label>
+              <textarea id="notas" name="notas" maxlength="200" placeholder="Ej. Falta el cable HDMI"></textarea>
+              <p class="error" data-error-for="notas"></p>
+            </div>
+          </div>
+          <div class="form__acciones">
+            <button class="btn btn--primario" type="submit">Guardar equipo</button>
+            <button class="btn btn--fantasma" type="button" data-cancelar hidden>Cancelar edición</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="t-lista">
+        <div class="panel__cab"><h2 id="t-lista">Inventario</h2><span class="contador" data-contador></span></div>
+        <form id="filtros" class="filtros" role="search" aria-label="Filtrar equipo">
+          <div class="campo"><label for="f-buscar">Buscar</label><input id="f-buscar" name="buscar" type="search" placeholder="Inventario o nombre"></div>
+          <div class="campo"><label for="f-tipo">Tipo</label><select id="f-tipo" name="tipo"></select></div>
+          <div class="campo"><label for="f-estado">Estado</label><select id="f-estado" name="estado"></select></div>
+          <div class="campo"><label for="f-sala">Sala</label><select id="f-sala" name="sala"></select></div>
+          <div class="campo"><label for="f-orden">Ordenar por</label>
+            <select id="f-orden" name="orden"><option value="nombre">Nombre</option><option value="noInventario">No. de inventario</option><option value="estado">Estado</option></select>
+          </div>
+        </form>
+        <div class="tabla-envoltura">
+          <table class="tabla">
+            <thead><tr><th>Equipo</th><th>Tipo</th><th>Ubicación</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+            <tbody id="tabla"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script src="/js/sesion.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/crud.js"></script>
+  <script src="/js/equipos.js"></script>
+</body>
+</html>
