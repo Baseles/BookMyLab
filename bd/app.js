@@ -1,5 +1,4 @@
-// App Express de BookMyLab: la API REST en /api y, en tu computadora, también la página web.
-// La usan bd/server.js (local) y api/index.js (Vercel).
+process.env.TZ = 'America/Mexico_City';
 require('dotenv').config({ path: require('path').join(__dirname, '.env'), quiet: true });
 
 const path = require('path');

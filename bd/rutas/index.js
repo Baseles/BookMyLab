@@ -1,8 +1,9 @@
-// Punto de entrada de la API (/api). Monta las rutas de cada recurso.
+// Punto de entrada de la API (/api)
 const { Router } = require('express');
 const mongoose = require('mongoose');
 const catalogos = require('../config/catalogos');
 const { resumen } = require('../controladores/resumen.controlador');
+const { disponibilidad } = require('../controladores/disponibilidad.controlador');
 const { autenticar, soloAdmin, adminParaEscribir } = require('../middlewares/autenticacion');
 
 const router = Router();
@@ -26,9 +27,10 @@ router.use('/auth', require('./auth.rutas'));
 router.use(['/resumen', '/usuarios', '/salas', '/equipos', '/reservas'], autenticar);
 
 router.get('/resumen', soloAdmin, resumen);
+router.get('/salas/:id/disponibilidad', disponibilidad); // para la línea de tiempo de Reservas
 router.use('/usuarios', soloAdmin, require('./usuarios.rutas'));
 router.use('/salas', adminParaEscribir, require('./salas.rutas'));
 router.use('/equipos', adminParaEscribir, require('./equipos.rutas'));
-router.use('/reservas', require('./reservas.rutas')); // los permisos por dueño se revisan en el controlador
+router.use('/reservas', require('./reservas.rutas')); // admin ve todas; alumno/docente solo las suyas (se revisa en reservas.rutas.js)
 
 module.exports = router;

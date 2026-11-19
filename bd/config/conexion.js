@@ -1,9 +1,5 @@
-// Conexión a MongoDB (Atlas o local). La URI se lee de la variable de entorno MONGO_URI
-// (archivo bd/.env en tu computadora, o Settings → Environment Variables en Vercel).
-// La conexión se crea una sola vez y se reutiliza en las siguientes llamadas.
 const mongoose = require('mongoose');
 
-// Stable API de Atlas: fija la versión 1 para que el servidor no cambie de comportamiento.
 const opcionesCliente = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 let conexion = null;
