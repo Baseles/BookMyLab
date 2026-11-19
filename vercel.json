@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/", "destination": "/html/index.html" },
+    { "source": "/:pagina(login|salas|equipos|reservas|usuarios)", "destination": "/html/:pagina.html" },
+    { "source": "/(.*)", "destination": "/html/404.html" }
+  ]
+}
