@@ -12,4 +12,4 @@ async function conectarBD() {
   }
 }
 
-module.exports = {conectarBD};
+module.exports = conectarBD;
