@@ -64,6 +64,12 @@ function aplicarRolEnPagina(sesion) {
 }
 
 async function cerrarSesion() {
+  const seguro = await confirmar('Tendrás que volver a iniciar sesión para entrar.', {
+    titulo: '¿Seguro que quieres cerrar sesión?',
+    textoOk: 'Cerrar sesión',
+  });
+  if (!seguro) return;
+
   try { await api('/auth/logout', { method: 'POST' }); } catch { /* si falla, igual se cierra localmente */ }
   borrarSesion();
   location.replace('/login?motivo=salio');
