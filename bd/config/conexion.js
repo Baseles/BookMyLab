@@ -1,29 +1,15 @@
 const mongoose = require('mongoose');
 
-const opcionesCliente = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+async function conectarBD() {
 
-let conexion = null;
+  if(mongoose.connection.readyState === 1) return;
 
-mongoose.connection.on('disconnected', () => console.warn('Se perdió la conexión con MongoDB'));
-mongoose.connection.on('reconnected', () => console.log('Conexión con MongoDB recuperada'));
-
-function conectarBD() {
-  if (!conexion) {
-    if (!process.env.MONGO_URI) {
-      return Promise.reject(new Error('Falta MONGO_URI. Copia bd/.env.example como bd/.env (o agrégala en Vercel).'));
-    }
-    conexion = mongoose
-      .connect(process.env.MONGO_URI, opcionesCliente)
-      .then(async () => {
-        await mongoose.connection.db.admin().command({ ping: 1 });
-        console.log(`Conectado a MongoDB (${mongoose.connection.name})`);
-      })
-      .catch((err) => {
-        conexion = null; // permite reintentar en la siguiente petición
-        throw err;
-      });
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("La conexion ah sido exitosa a mongoDB amen");
+  } catch (err) {
+    console.log("Error al conectar con el mongoDB repampanos", err);
   }
-  return conexion;
 }
 
-module.exports = conectarBD;
+module.exports = {conectarBD};
